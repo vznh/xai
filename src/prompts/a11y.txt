@@ -1,0 +1,18 @@
+Add accessibility features to the React component including ARIA attributes, keyboard navigation, and focus management.
+
+REQUIREMENTS:
+- Add appropriate ARIA roles and labels
+- Implement keyboard navigation
+- Add focus-visible outlines
+- Include data-state attributes for different states (default, hover, focus, disabled, loading)
+- Ensure screen reader compatibility
+- Add semantic HTML elements where appropriate
+
+CURRENT COMPONENT:
+{component}
+
+FEATURES JSON:
+{features}
+
+OUTPUT:
+Return the updated component code with accessibility features implemented.

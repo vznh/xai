@@ -1,0 +1,15 @@
+Create a preview page that renders the component on a white background, centered in the viewport.
+
+REQUIREMENTS:
+- White background
+- Component centered in viewport
+- Include small notice: "No fonts inferred—set your typography downstream"
+- Minimal styling
+- Import the component correctly
+- Include global CSS import
+
+COMPONENT NAME:
+{componentName}
+
+OUTPUT:
+Return the complete preview page code (pages/index.tsx or app/preview.tsx).

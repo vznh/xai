@@ -1,40 +1,122 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Surface-Only Component Generator Backend
 
-## Getting Started
+A Next.js serverless backend that generates React+Tailwind components from image analysis, powered by multi-model LLM agents.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Image Analysis**: Canvas-based color extraction and layout detection
+- **Multi-Model LLM**: Supports GPT-5, Grok-4, Gemini-2.5-Pro, Claude-3-Opus
+- **Component Generation**: Creates headless, accessible React TypeScript components
+- **Sandbox Deployment**: Auto-deploys to Vercel for preview
+- **Real-time Streaming**: Server-Sent Events for generation progress
+
+## API Endpoints
+
+### POST /api/generate
+Generate components from images with real-time streaming.
+
+**Request Body:**
+```json
+{
+  "images": [
+    {
+      "id": "unique_id",
+      "blobBase64": "base64_string",
+      "mime": "image/jpeg",
+      "tags": ["button", "primary"],
+      "description": "A blue button with rounded corners"
+    }
+  ],
+  "blend": {
+    "paletteFromImageId": "image_id_or_null",
+    "layoutFromImageId": "image_id_or_null"
+  },
+  "negatives": ["no-glassmorphism", "no-animations"],
+  "providerKeys": {
+    "openai": "sk-...",
+    "grok": "grok-...",
+    "gemini": "AIza...",
+    "claude": "claude-..."
+  }
+}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Response (SSE):**
+- `progress`: Generation step updates
+- `file`: Generated file contents
+- `preview`: Deployed preview URL
+- `done`: Final summary
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+### GET /api/versions
+List all generated component versions.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+### POST /api/promote/[version]
+Promote a version (removes TTL, keeps permanently).
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### GET /api/evaluation/[version]
+Get basic SSIM evaluation scores (v1 minimal).
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### GET /api/cron/purge?key=SECRET
+Cleanup expired versions and files.
 
-## Learn More
+## Architecture
 
-To learn more about Next.js, take a look at the following resources:
+### Agent Pipeline
+1. **Component Agent**: Creates base TypeScript component structure
+2. **Style Agent**: Applies measured design tokens as Tailwind classes
+3. **Layout Agent**: Adds responsive grid/flex layouts
+4. **A11y Agent**: Implements accessibility features
+5. **Preview Agent**: Generates sandbox preview page
+6. **Fix Agent**: Validates and fixes code violations
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### File Structure
+```
+src/
+├── pages/api/              # Next.js API routes
+├── services/               # Core business logic
+│   ├── agents/            # LLM agent implementations
+│   ├── measure.ts         # Image analysis
+│   ├── sandbox.ts         # Vercel deployment
+│   └── storage.ts         # File persistence
+├── utils/                 # Utilities (SSE, hashing, etc.)
+├── prompts/               # LLM prompt templates
+└── types/                 # TypeScript definitions
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Environment Setup
 
-## Deploy on Vercel
+Copy `.env.example` to `.env.local` and configure:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+# Required for deployment
+VERCEL_TOKEN=your_vercel_token
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+# Required for security
+CRON_SECRET=secure_random_string
+
+# Optional limits
+MAX_IMAGE_COUNT=5
+MAX_IMAGE_MB=10
+TTL_CODE_DAYS=14
+```
+
+## Constraints
+
+- **No Fonts**: Never generates font-family declarations
+- **No Animations**: Static components only in v1
+- **Tailwind Only**: Minimal custom CSS exceptions
+- **Headless Design**: Props-based, composable components
+- **Surface Analysis**: Only visible design elements, no inference
+
+## Development
+
+```bash
+npm install
+npm run dev
+```
+
+The backend will be available at `http://localhost:3000/api/`
+
+## Persistence
+
+Currently uses localStorage for development. Production ready with Supabase configuration in environment variables.

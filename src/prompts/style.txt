@@ -1,0 +1,19 @@
+Add styling to the React component using Tailwind utility classes based on the measured design tokens.
+
+CONSTRAINTS:
+- Use only Tailwind utilities
+- Map colors to semantic names (primary, secondary, accent, etc.)
+- Apply measured spacing, border radius, and shadows
+- Create responsive variants
+- Add hover/focus states
+- No font-family declarations
+- If Tailwind cannot express a visual, add minimal CSS to styles.css
+
+CURRENT COMPONENT:
+{component}
+
+FEATURES JSON:
+{features}
+
+OUTPUT:
+Return the updated component code with Tailwind classes applied. If custom CSS is needed, also return styles.css content.

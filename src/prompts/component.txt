@@ -1,0 +1,20 @@
+Create a React TypeScript component based on the provided features analysis.
+
+REQUIREMENTS:
+- Use TypeScript with proper typing
+- Component must be headless and composable
+- Support className, style, as, variant, and state props
+- Use only Tailwind utility classes
+- No font-family declarations
+- No animations
+- Responsive design with sm/md/lg breakpoints
+- Component should be self-contained
+- Do NOT use Next.js Image component - use regular HTML img tags
+- If using img tags, always include width and height attributes
+- Use semantic HTML elements (div, button, input, etc.)
+
+FEATURES JSON:
+{features}
+
+OUTPUT:
+Return only the complete TypeScript component code, starting with imports and ending with export.

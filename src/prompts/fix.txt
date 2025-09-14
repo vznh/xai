@@ -1,0 +1,24 @@
+Fix violations in the React component code. Common issues to address:
+
+BANNED ITEMS:
+- font-family declarations
+- external font URLs
+- animations or transitions
+- global CSS resets
+- non-Tailwind utility classes (except minimal custom CSS)
+
+REQUIREMENTS:
+- Ensure TypeScript compiles without errors
+- Verify all imports are correct
+- Check that component exports properly
+- Validate Tailwind class names
+- Remove any prohibited styling
+
+COMPONENT CODE:
+{component}
+
+VIOLATIONS FOUND:
+{violations}
+
+OUTPUT:
+Return the corrected component code with all violations fixed.

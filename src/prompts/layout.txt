@@ -1,0 +1,17 @@
+Add responsive layout and grid/flex positioning to the component based on the layout analysis.
+
+REQUIREMENTS:
+- Apply detected layout type (flex or grid)
+- Add responsive breakpoints (sm/md/lg)
+- Handle columns and gutters if grid layout
+- Add proper alignment and spacing
+- Ensure mobile-first responsive design
+
+CURRENT COMPONENT:
+{component}
+
+FEATURES JSON:
+{features}
+
+OUTPUT:
+Return the updated component code with responsive layout classes applied.
